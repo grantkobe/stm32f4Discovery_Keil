@@ -1,0 +1,8 @@
+*.o
+*.d
+
+# Ignoring directories
+# Both the directory itself and its contents will be ignored.
+DebugConfig/
+Listings/
+Objects/
