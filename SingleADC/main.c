@@ -33,7 +33,7 @@ int main(void)
 	
 	while(1)
 	{
-		if(1) //register version
+		if(0) //register version
 		{
 			//1.Start ADC
 			ADC1->CR2 |= ADC_CR2_ADON;
@@ -78,7 +78,8 @@ int main(void)
 				HAL_Delay(100);
 			}
 			
-		}else //HAL version
+		}
+		else //HAL version
 		{
 			
 		HAL_ADC_Start(&hadc1);
@@ -130,7 +131,7 @@ void GPIO_Config(void)
 	}
 	else{
 		
-		if(0)// HAL layer
+		if(1)// HAL layer
 		{
 			
 		__HAL_RCC_GPIOA_CLK_ENABLE();
@@ -142,9 +143,8 @@ void GPIO_Config(void)
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		
 		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-		}
-		
-		if(1)//register layer
+		}		
+		else//register layer
 		{
 			//__HAL_RCC_GPIOA_CLK_ENABLE();
 			RCC->AHB1ENR |= (0x01 );
@@ -205,7 +205,7 @@ void ADC_Config(void)
   /* USER CODE END ADC1_Init 2 */
 	
 	}
-	else
+	else //Keil C hal lib only
 	{
 		
 		//hadc1 initial is need for the main functino usage, however in register layer, we do not need actually call HAL_ADC_Init and HAL_ADC_ConfigChannel
@@ -213,13 +213,13 @@ void ADC_Config(void)
 		__HAL_RCC_ADC1_CLK_ENABLE();
 		
 		hadc1.Instance = ADC1;
-		hadc1.Init.Resolution = ADC_RESOLUTION_8B;
+		hadc1.Init.Resolution = ADC_RESOLUTION_10B;
 		hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
 		hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT; //register align to 0-9 bits for 8 bit accuacy
 		
 	
 		}
-	if(0)//Hal version
+	if(1)//Hal version
 	{
 	
 		HAL_ADC_Init(&hadc1);
@@ -231,7 +231,7 @@ void ADC_Config(void)
 		myADCchannelTypedDef.SamplingTime = ADC_SAMPLETIME_15CYCLES;
 		HAL_ADC_ConfigChannel(&hadc1, &myADCchannelTypedDef);
 	}
-	if(1) //register layer
+	else //register layer
 	{
 		__HAL_RCC_ADC1_CLK_ENABLE();
 		ADC1->CR1 =  (0x2 << 24); //Set the resolution to 8 bits 
